@@ -273,7 +273,7 @@ app.post('/addFood', [
 
 /**  
 * @swagger  
-* /patchCompany/{id}:  
+* /patchCompany:  
 *    patch:  
 *      description: Update record in the company table  
 *      produces:  
@@ -282,7 +282,7 @@ app.post('/addFood', [
 *          200:  
 *              description: Updated data in the company table  
 *          400:  
-*              description: Invalid data input  
+*              description: Invalid data input  		
 *          500:  
 *              description: Server error  
 *      parameters:  
@@ -326,7 +326,7 @@ app.patch('/patchCompany', async (req, res) => {
 
 /**  
 * @swagger  
-* /deleteFood/{id}:  
+* /deleteFood:  
 *    delete:  
 *      description: Delete record in Foods table  
 *      produces:  
