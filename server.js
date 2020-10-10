@@ -159,7 +159,7 @@ app.use(bodyParser.json());
 /**  
 * 
 * @swagger  
-* /updateCompany/{id}:  
+* /updateCompany:  
 *    put:  
 *      description: add or update a record to Company table  
 *      produces:  
