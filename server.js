@@ -282,7 +282,7 @@ app.post('/addFood', [
 *          200:  
 *              description: Updated data in the company table  
 *          400:  
-*              description: Invalid data input  		
+*              description: Record not found  		
 *          500:  
 *              description: Server error  
 *      parameters:  
@@ -314,7 +314,7 @@ app.patch('/patchCompany', async (req, res) => {
 			rows = query.affectedRows
 		}
 		if (rows == 0) {
-			return res.status(404).send("No rows updated, record not Found");
+			return res.status(400).send("No rows updated, record not Found");
 		}
 		return res.status(200).send("Updated Successfully");
 	} catch (error) {
@@ -326,7 +326,7 @@ app.patch('/patchCompany', async (req, res) => {
 
 /**  
 * @swagger  
-* /deleteFood:  
+* /deleteFood/{id}:  
 *    delete:  
 *      description: Delete record in Foods table  
 *      produces:  
