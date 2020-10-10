@@ -208,8 +208,43 @@ app.put('/updateCompany', [
 	}
 });
 
-
-
+/**
+ * @swagger
+ * definitions:
+ *   Food:
+ *     properties:
+ *       ITEM_ID:
+ *         type: string
+ *       ITEM_NAME:
+ *         type: string
+ *       ITEM_UNIT:
+ *         type: string
+ *       COMPANY_ID:
+ *         type: string
+ */
+/**
+ * @swagger
+ * /addFood:
+ *    post:
+ *      description: add record to food table
+ *      produces:
+ *          - application/json
+ *      responses:
+ *          200:
+ *              description: Added data to food table
+ *          500:
+ *              description: Server error
+ *          400:
+ *              description: Errors in input object
+ *      parameters:
+ *          - name: Food
+ *            description: food object
+ *            in: body
+ *            required: true
+ *            schema:
+ *              $ref: '#/definitions/Food'
+ *
+ */
 app.post('/addFood', [
 	check('ITEM_NAME').trim().not().isEmpty().withMessage('Item name must not be empty'),
 	check('ITEM_UNIT').trim(),
@@ -259,24 +294,23 @@ app.post('/addFood', [
 *              $ref: '#/definitions/Company'  
 *  
 */
-app.patch('/patchCompany/:id', async (req, res) => {
+app.patch('/patchCompany', async (req, res) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return res.status(400).send(errors);
 	}
 	var connection;
-	const ID = req.params.id;
-	const { COMPANY_NAME, COMPANY_CITY } = req.body;
+	const { COMPANY_ID, COMPANY_NAME, COMPANY_CITY } = req.body;
 	var rows = 0;
 	try {
 		connection = await pool.getConnection();
 		if (COMPANY_NAME && COMPANY_CITY) {
-			const query = await pool.query(`UPDATE company SET COMPANY_NAME='${COMPANY_NAME}', COMPANY_CITY='${COMPANY_CITY}' WHERE COMPANY_ID = '${ID}'`); rows = query.affectedRows;
+			const query = await pool.query(`UPDATE company SET COMPANY_NAME='${COMPANY_NAME}', COMPANY_CITY='${COMPANY_CITY}' WHERE COMPANY_ID = '${COMPANY_ID}'`); rows = query.affectedRows;
 		} else if (COMPANY_NAME) {
-			const query = await pool.query(`UPDATE company SET COMPANY_NAME='${COMPANY_NAME}' WHERE COMPANY_ID = '${ID}'`)
+			const query = await pool.query(`UPDATE company SET COMPANY_NAME='${COMPANY_NAME}' WHERE COMPANY_ID = '${COMPANY_ID}'`)
 			rows = query.affectedRows
 		} else if (COMPANY_CITY) {
-			const query = await pool.query(`UPDATE company SET COMPANY_CITY='${COMPANY_CITY}' WHERE COMPANY_ID = '${ID}'`);
+			const query = await pool.query(`UPDATE company SET COMPANY_CITY='${COMPANY_CITY}' WHERE COMPANY_ID = '${COMPANY_ID}'`);
 			rows = query.affectedRows
 		}
 		if (rows == 0) {
