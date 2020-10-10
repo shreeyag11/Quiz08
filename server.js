@@ -283,6 +283,8 @@ app.post('/addFood', [
 *              description: Updated data in the company table  
 *          400:  
 *              description: Invalid data input  		
+*		   404:
+*			   description: Record not found
 *          500:  
 *              description: Server error  
 *      parameters:  
@@ -294,7 +296,11 @@ app.post('/addFood', [
 *              $ref: '#/definitions/Company'  
 *  
 */
-app.patch('/patchCompany', async (req, res) => {
+app.patch('/patchCompany', [
+	check('COMPANY_ID').trim().not().isEmpty().withMessage('Company ID must not be empty'),
+	check('COMPANY_CITY').trim(),
+	check('COMPANY_NAME').trim()
+], async (req, res) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return res.status(400).send(errors);
